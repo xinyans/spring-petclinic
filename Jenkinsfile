@@ -6,9 +6,16 @@ pipeline {
 
   }
   stages {
-    stage('Pull') {
+    stage('Pull Repository') {
       steps {
-        sleep 10
+        git(url: 'https://github.com/spring-projects/spring-petclinic', branch: 'main')
+      }
+    }
+
+    stage('Run Sonar') {
+      steps {
+        withSonarQubeEnv 'SonarQubeServer'
+        waitForQualityGate true
       }
     }
 
